@@ -1,4 +1,4 @@
-package repositores
+package repositories
 
 import (
 	"context"
@@ -33,6 +33,7 @@ func (r *UserRepository) Register(ctx context.Context, req *dto.RegisterRequest)
 		UUID:        uuid.New(),
 		Name:        req.Name,
 		Username:    req.Username,
+		Password:    req.Password,
 		PhoneNumber: req.PhoneNumber,
 		Email:       req.Email,
 		RoleID:      req.RoleID,
@@ -67,7 +68,7 @@ func (r *UserRepository) Update(ctx context.Context, req *dto.UpdateRequest, uui
 func (r *UserRepository) FindByUsername(ctx context.Context, username string) (*models.User, error) {
 	var user models.User
 	err := r.db.WithContext(ctx).
-		Preload("role").
+		Preload("Role").
 		Where("username = ?", username).
 		First(&user).Error
 	if err != nil {
@@ -82,7 +83,7 @@ func (r *UserRepository) FindByUsername(ctx context.Context, username string) (*
 func (r *UserRepository) FindByEmail(ctx context.Context, email string) (*models.User, error) {
 	var user models.User
 	err := r.db.WithContext(ctx).
-		Preload("role").
+		Preload("Role").
 		Where("email = ?", email).
 		First(&user).Error
 	if err != nil {
@@ -97,7 +98,7 @@ func (r *UserRepository) FindByEmail(ctx context.Context, email string) (*models
 func (r *UserRepository) FindByUUID(ctx context.Context, uuid string) (*models.User, error) {
 	var user models.User
 	err := r.db.WithContext(ctx).
-		Preload("role").
+		Preload("Role").
 		Where("uuid = ?", uuid).
 		First(&user).Error
 	if err != nil {

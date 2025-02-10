@@ -73,7 +73,7 @@ func validateAPIKey(c *gin.Context) error {
 	serviceName := c.GetHeader(constants.XServiceName)
 	signatureKey := config.Config.SignatureKey
 
-	validateKey := fmt.Sprintf("%s:%s:%s", requestAt, serviceName, signatureKey)
+	validateKey := fmt.Sprintf("%s:%s:%s", serviceName, signatureKey, requestAt)
 	hash := sha256.New()
 	hash.Write([]byte(validateKey))
 	resultHash := hex.EncodeToString(hash.Sum(nil))
@@ -119,7 +119,7 @@ func Authenticate() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var err error
 		token := c.GetHeader(constants.Authorization)
-		if token != "" {
+		if token == "" {
 			responseUnauthorized(c, errConstant.ErrUnauthorized.Error())
 			return
 		}

@@ -68,7 +68,7 @@ var command = &cobra.Command{
 		})
 		router.Use(func(c *gin.Context) {
 			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-			c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS")
+			c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH")
 			c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, x-api-key, x-service-name, x-request-at")
 			c.Next()
 		})
@@ -84,7 +84,7 @@ var command = &cobra.Command{
 		route := routes.NewRouteRegistry(controller, group)
 		route.Serve()
 
-		port := fmt.Sprintf("%d", config.Config.Port)
+		port := fmt.Sprintf(":%d", config.Config.Port)
 		router.Run(port)
 	},
 }

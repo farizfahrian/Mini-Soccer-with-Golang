@@ -16,11 +16,11 @@ type UserController struct {
 }
 
 type IUserController interface {
-	Login(ctx *gin.Context)
-	Register(ctx *gin.Context)
-	Update(ctx *gin.Context)
-	GetUserLogin(ctx *gin.Context)
-	GetUserByUUID(ctx *gin.Context)
+	Login(*gin.Context)
+	Register(*gin.Context)
+	Update(*gin.Context)
+	GetUserLogin(*gin.Context)
+	GetUserByUUID(*gin.Context)
 }
 
 func NewUserController(service services.IServiceRegistry) IUserController {
@@ -46,7 +46,7 @@ func (u *UserController) Login(ctx *gin.Context) {
 		errMessage := http.StatusText(http.StatusUnprocessableEntity)
 		errResponse := errWrap.ErrValidationResponse(err)
 		response.HttpResponse(response.ParamHTTPResp{
-			Code:    http.StatusBadRequest,
+			Code:    http.StatusUnprocessableEntity,
 			Message: &errMessage,
 			Data:    errResponse,
 			Err:     err,
@@ -92,7 +92,7 @@ func (u *UserController) Register(ctx *gin.Context) {
 		errMessage := http.StatusText(http.StatusUnprocessableEntity)
 		errResponse := errWrap.ErrValidationResponse(err)
 		response.HttpResponse(response.ParamHTTPResp{
-			Code:    http.StatusBadRequest,
+			Code:    http.StatusUnprocessableEntity,
 			Message: &errMessage,
 			Data:    errResponse,
 			Err:     err,
@@ -138,7 +138,7 @@ func (u *UserController) Update(ctx *gin.Context) {
 		errMessage := http.StatusText(http.StatusUnprocessableEntity)
 		errResponse := errWrap.ErrValidationResponse(err)
 		response.HttpResponse(response.ParamHTTPResp{
-			Code:    http.StatusBadRequest,
+			Code:    http.StatusUnprocessableEntity,
 			Message: &errMessage,
 			Data:    errResponse,
 			Err:     err,
